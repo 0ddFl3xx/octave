@@ -77,7 +77,6 @@ export default async function Sidebar() {
           <p className="hidden md:block">
             © {year} Octave. All rights reserved.
           </p>
-          <p>Made with ❤️ by 0ddFlexx</p>
         </div>
       </div>
     </div>

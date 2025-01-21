@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
+import CreditTag from "@/components/CreditTag";
 import { dark } from "@clerk/themes";
 
 import "./globals.css";
@@ -17,7 +18,9 @@ export default function RootLayout({
   return (
     <ClerkProvider appearance={{ baseTheme: dark }}>
       <html lang="en">
-        <body>{children}</body>
+        <body>{children}
+          <CreditTag />
+        </body>
       </html>
     </ClerkProvider>
   );
