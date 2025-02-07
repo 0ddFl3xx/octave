@@ -11,14 +11,6 @@ export interface JamendoTrack {
   image: string;
   audio: string;
   album_name: string;
-  // Optional music info returned for additional details.
-  musicinfo?: {
-    tags?: {
-      genres?: string[];
-      [key: string]: any;
-    };
-    [key: string]: any;
-  };
 }
 
 export async function getFeaturedTracks(): Promise<JamendoTrack[]> {
@@ -43,22 +35,4 @@ export async function getTracksByGenre(genre: string): Promise<JamendoTrack[]> {
   );
   const data = await response.json();
   return data.results;
-}
-
-export async function getAllGenres(): Promise<string[]> {
-  const response = await fetch(
-    `${BASE_URL}/tracks/?client_id=${JAMENDO_CLIENT_ID}&format=json&limit=50&include=musicinfo`
-  );
-  const data = await response.json();
-  const genreSet = new Set<string>();
-  data.results.forEach((track: JamendoTrack) => {
-    if (
-      track.musicinfo &&
-      track.musicinfo.tags &&
-      Array.isArray(track.musicinfo.tags.genres)
-    ) {
-      track.musicinfo.tags.genres.forEach((genre) => genreSet.add(genre));
-    }
-  });
-  return Array.from(genreSet);
 }
