@@ -1,31 +1,26 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useEffect, useState } from "react";
 import { UserPlus, EllipsisVertical, Shuffle, Download } from "lucide-react";
-
 import { usePlayerStore } from "@/lib/usePlayerStore";
-import { getFeaturedTracks, JamendoTrack } from "@/lib/jamendo";
+import { JamendoTrack } from "@/lib/jamendo";
+import { MobileTrackListSkeleton } from "./TrackListSkeleton";
+import { useFeaturedTracks } from "@/hooks/useFeaturedTracks";
 
 const MobileContent = () => {
-  const [featuredTracks, setFeaturedTracks] = useState<JamendoTrack[]>([]);
   const { setCurrentTrack, setIsPlaying, setQueue, isPlaying, currentTrack } =
     usePlayerStore();
 
-  useEffect(() => {
-    const loadFeaturedTracks = async () => {
-      try {
-        const tracks = await getFeaturedTracks();
-        setFeaturedTracks(tracks);
-      } catch (error) {
-        console.log(`FAILED:- loadFeaturedTracks() => ${error}`);
-      }
-    };
-    loadFeaturedTracks();
-  }, []);
+  const { data: featuredTracks = [], isLoading, error } = useFeaturedTracks();
+
+  if (error)
+    return (
+      <div className="h-screen flex items-center justify-center text-red-500 bg-black">
+        Error loading tracks
+      </div>
+    );
 
   const playTrack = (track: JamendoTrack, index: number) => {
-    // Convert the clicked track to your Track format
     const currentTrack = {
       id: track.id,
       name: track.name,
@@ -36,7 +31,6 @@ const MobileContent = () => {
       albumName: track.album_name,
     };
 
-    // Convert remaining tracks to queue
     const remainingTracks = featuredTracks.slice(index + 1).map((track) => ({
       id: track.id,
       name: track.name,
@@ -49,7 +43,6 @@ const MobileContent = () => {
 
     setCurrentTrack(currentTrack);
     setQueue(remainingTracks);
-
     setIsPlaying(true);
   };
 
@@ -97,14 +90,12 @@ const MobileContent = () => {
               />
               <Download className="size-5" />
               <UserPlus className="size-5" />
-              
               <EllipsisVertical className="size-5" />
             </div>
 
             {/* Right Icons Group */}
             <div className="flex items-center space-x-4">
               <Shuffle className="size-5" />
-
               <div className="bg-blue-500 rounded-full w-10 h-10 flex items-center justify-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -120,31 +111,36 @@ const MobileContent = () => {
           {/* Music */}
           <div className="pt-6">
             <ul className="space-y-4">
-              {featuredTracks.map((track, index) => (
-                <li
-                  key={index}
-                  className="flex items-center gap-4"
-                  onClick={() => playTrack(track, index)}>
-                  <img
-                    src={track.image}
-                    alt={track.name}
-                    className="size-10 rounded-md"
-                  />
-                  <div className="flex-1">
-                    <p
-                      className={`font-semibold ${
-                        isPlaying && currentTrack?.id === track.id
-                          ? "text-blue-500"
-                          : ""
-                      }`}>
-                      {track.name}
-                    </p>
-                    <p className="text-sm text-zinc-400">{track.artist_name}</p>
-                  </div>
-
-                  <EllipsisVertical className="size-5" />
-                </li>
-              ))}
+              {isLoading ? (
+                <MobileTrackListSkeleton />
+              ) : (
+                featuredTracks.map((track, index) => (
+                  <li
+                    key={index}
+                    className="flex items-center gap-4"
+                    onClick={() => playTrack(track, index)}>
+                    <img
+                      src={track.image}
+                      alt={track.name}
+                      className="size-10 rounded-md"
+                    />
+                    <div className="flex-1">
+                      <p
+                        className={`font-semibold ${
+                          isPlaying && currentTrack?.id === track.id
+                            ? "text-blue-500"
+                            : ""
+                        }`}>
+                        {track.name}
+                      </p>
+                      <p className="text-sm text-zinc-400">
+                        {track.artist_name}
+                      </p>
+                    </div>
+                    <EllipsisVertical className="size-5" />
+                  </li>
+                ))
+              )}
             </ul>
           </div>
         </div>
@@ -152,4 +148,5 @@ const MobileContent = () => {
     </>
   );
 };
+
 export default MobileContent;

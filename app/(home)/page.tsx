@@ -10,10 +10,11 @@ export default function Home() {
     <>
       <div className="h-screen flex flex-col bg-gradient-to-b from-blue-900 to-black text-white">
         <div className="flex-1 flex overflow-hidden">
-          {/* PC Components */}
+          {/* START PC Components */}
           <Sidebar />
 
           <MainContent />
+          {/* END PC Components */}
 
           {/* Mobile Components */}
           <MobileContent />

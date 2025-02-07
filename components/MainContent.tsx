@@ -4,24 +4,23 @@
 import { useEffect, useState } from "react";
 import { Play, Clock3 } from "lucide-react";
 import { toast } from "sonner";
+
 import { usePlayerStore } from "@/lib/usePlayerStore";
 import { getFeaturedTracks, JamendoTrack } from "@/lib/jamendo";
+import { PCTrackListSkeleton } from "./TrackListSkeleton";
+import { useFeaturedTracks } from "@/hooks/useFeaturedTracks";
 
 const MainContent = () => {
-  const [featuredTracks, setFeaturedTracks] = useState<JamendoTrack[]>([]);
   const { setCurrentTrack, setIsPlaying, setQueue } = usePlayerStore();
 
-  useEffect(() => {
-    const loadFeaturedTracks = async () => {
-      try {
-        const tracks = await getFeaturedTracks();
-        setFeaturedTracks(tracks);
-      } catch (error) {
-        console.log(`FAILED:- loadFeaturedTracks() => ${error}`);
-      }
-    };
-    loadFeaturedTracks();
-  }, []);
+  const { data: featuredTracks = [], isLoading, error } = useFeaturedTracks();
+
+  if (error)
+    return (
+      <div className="h-screen flex items-center justify-center text-red-500 bg-black">
+        Error loading tracks
+      </div>
+    );
 
   const playTrack = (track: JamendoTrack, index: number) => {
     // Convert the clicked track to your Track format
@@ -89,62 +88,41 @@ const MainContent = () => {
               </thead>
 
               <tbody>
-                {featuredTracks.length > 0
-                  ? featuredTracks.map((track, index) => (
-                      <tr
-                        key={track.id}
-                        className="border-b border-white/20 hover:bg-white/10 group cursor-pointer"
-                        onClick={() => playTrack(track, index)}>
-                        <td className="py-4 w-8">
-                          <span className="group-hover:hidden">
-                            {index + 1}
-                          </span>
-                          <Play className="size-4 hidden group-hover:block" />
-                        </td>
-                        <td className="py-4">
-                          <div className="flex items-center">
-                            <img
-                              src={track.image}
-                              alt={track.name}
-                              className="size-10  mr-4"
-                            />
-                            {track.name}
-                          </div>
-                        </td>
-                        <td className="py-4">{track.album_name}</td>
-                        <td className="py-4">{track.artist_name}</td>
-                        <td className="py-4 w-8">
-                          {/* 
+                {isLoading ? (
+                  <PCTrackListSkeleton />
+                ) : (
+                  featuredTracks.map((track, index) => (
+                    <tr
+                      key={track.id}
+                      className="border-b border-white/20 hover:bg-white/10 group cursor-pointer"
+                      onClick={() => playTrack(track, index)}>
+                      <td className="py-4 w-8">
+                        <span className="group-hover:hidden">{index + 1}</span>
+                        <Play className="size-4 hidden group-hover:block" />
+                      </td>
+                      <td className="py-4">
+                        <div className="flex items-center">
+                          <img
+                            src={track.image}
+                            alt={track.name}
+                            className="size-10  mr-4"
+                          />
+                          {track.name}
+                        </div>
+                      </td>
+                      <td className="py-4">{track.album_name}</td>
+                      <td className="py-4">{track.artist_name}</td>
+                      <td className="py-4 w-8">
+                        {/* 
                         calculates the minutes by dividing the track's duration (in seconds) 
                         gets the remaining seconds after dividing by 60, convert to string and pad to two digits
                       */}
-                          {Math.floor(track.duration / 60)}:
-                          {(track.duration % 60).toString().padStart(2, "0")}
-                        </td>
-                      </tr>
-                    ))
-                  : [...Array(5)].map((_, index) => (
-                      <tr key={index} className="border-b border-white/20">
-                        <td className="py-4 w-8">
-                          <div className="h-4 w-4 bg-white/10 animate-pulse rounded" />
-                        </td>
-                        <td className="py-4">
-                          <div className="flex items-center">
-                            <div className="size-10 mr-4 bg-white/10 animate-pulse rounded" />
-                            <div className="h-4 w-32 bg-white/10 animate-pulse rounded" />
-                          </div>
-                        </td>
-                        <td className="py-4">
-                          <div className="h-4 w-24 bg-white/10 animate-pulse rounded" />
-                        </td>
-                        <td className="py-4">
-                          <div className="h-4 w-20 bg-white/10 animate-pulse rounded" />
-                        </td>
-                        <td className="py-4 w-8">
-                          <div className="h-4 w-8 bg-white/10 animate-pulse rounded" />
-                        </td>
-                      </tr>
-                    ))}
+                        {Math.floor(track.duration / 60)}:
+                        {(track.duration % 60).toString().padStart(2, "0")}
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>

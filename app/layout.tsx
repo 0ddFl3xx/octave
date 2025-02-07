@@ -4,6 +4,7 @@ import CreditTag from "@/components/CreditTag";
 
 import "@/app/globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import QueryProvider from "./providers";
 
 export const metadata: Metadata = {
   title: "Octave — Tune in. Turn up.",
@@ -19,7 +20,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body>
-          {children}
+          <QueryProvider>{children}</QueryProvider>
           <CreditTag />
         </body>
       </html>
