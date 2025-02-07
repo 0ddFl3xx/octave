@@ -1,12 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useEffect, useState } from "react";
 import { Play, Clock3 } from "lucide-react";
 import { toast } from "sonner";
 
 import { usePlayerStore } from "@/lib/usePlayerStore";
-import { getFeaturedTracks, JamendoTrack } from "@/lib/jamendo";
+import { JamendoTrack } from "@/lib/jamendo";
 import { PCTrackListSkeleton } from "./TrackListSkeleton";
 import { useFeaturedTracks } from "@/hooks/useFeaturedTracks";
 
