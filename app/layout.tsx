@@ -9,6 +9,16 @@ import QueryProvider from "./providers";
 export const metadata: Metadata = {
   title: "Octave — Tune in. Turn up.",
   description: "Welcome to Octave, your all in one music streaming platform!",
+  openGraph: {
+    images: [
+      {
+        url: "https://octave-ten.vercel.app/og/banner.png",
+        width: 1200,
+        height: 600,
+        alt: "Octave — Tune in. Turn up.",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
