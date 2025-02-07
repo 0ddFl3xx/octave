@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* For Webkit browsers (Chrome, Safari) */
+/* Define the width and height of the scrollbar */
+::-webkit-scrollbar {
+  width: 5px; /* Horizontal scrollbar width */
+  height: 5px; /* Vertical scrollbar height */
+}
+
+/* Define the style of the scrollbar track (background area) */
+::-webkit-scrollbar-track {
+  background: transparent; 
+  
+}
+
+/* Define the style of the scrollbar thumb (draggable part) */
+::-webkit-scrollbar-thumb {
+  background: #3B82F6; /* Thumb color */
+  border-radius: 10px; /* Rounded corners */
+}
+
+
+
