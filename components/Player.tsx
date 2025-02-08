@@ -271,7 +271,7 @@ export default function Player() {
               <div
                 className="h-screen fixed inset-0 flex md:hidden flex-col p-2 z-50"
                 style={{ background: gradientBackground }}>
-                <div className="relative flex items-center justify-center w-full mb-8">
+                <div className="relative flex items-center justify-center w-full mb-16">
                   <button
                     className="absolute left-4 text-white text-2xl"
                     onClick={() => setIsFullScreen(false)}>
@@ -290,8 +290,8 @@ export default function Player() {
                   </button>
                 </div>
 
-                <div className="px-2">
-                  <div className="mb-8 flex items-center justify-center">
+                <div className="px-2 ">
+                  <div className="mb-12 flex items-center justify-center">
                     <img
                       src={currentTrack.imageUrl}
                       alt={currentTrack.name}
