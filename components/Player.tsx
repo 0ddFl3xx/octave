@@ -170,7 +170,7 @@ export default function Player() {
               <p className="font-semibold line-clamp-1">{currentTrack.name}</p>
               <p className="text-sm text-zinc-400">{currentTrack.artist}</p>
             </div>
-            <div className="flex space-x-2">
+            <div className="flex space-x-3">
               <MonitorSpeaker />
               <div
                 onClick={toggleLike}
