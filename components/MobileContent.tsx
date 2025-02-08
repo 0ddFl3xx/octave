@@ -56,7 +56,7 @@ const MobileContent = () => {
               <img
                 src="https://images.unsplash.com/photo-1618397746666-63405ce5d015?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="cover"
-                className="size-36 rounded"
+                className="size-44 rounded"
               />
             </div>
             <div className="mb-2.5">
