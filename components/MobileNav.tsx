@@ -5,19 +5,19 @@ const MobileNav = () => {
     <>
       <div className="mx-4 pb-2">
         <div className="flex justify-between">
-          <div className="flex flex-col items-center text-sm text-blue-500">
+          <div className="flex flex-col items-center text-xs text-blue-500">
             <House className="size-6 " />
             Home
           </div>
-          <div className="flex flex-col items-center text-sm">
+          <div className="flex flex-col items-center text-xs text-zinc-400">
             <Search className="size-6" />
             Search
           </div>
-          <div className="flex flex-col items-center text-sm">
+          <div className="flex flex-col items-center text-xs text-zinc-400">
             <LibraryBig className="size-6" />
             Your library
           </div>
-          <div className="flex flex-col items-center text-sm">
+          <div className="flex flex-col items-center text-xs text-zinc-400">
             <Plus className="size-6" />
             Create
           </div>

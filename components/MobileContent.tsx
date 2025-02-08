@@ -50,20 +50,20 @@ const MobileContent = () => {
     <>
       <div className="block lg:hidden flex-1 overflow-auto py-4">
         {/* Playlist Hero */}
-        <div className="px-8">
+        <div className="px-4">
           <div className="flex-col mb-4">
             <div className="flex items-center justify-center mb-4">
               <img
                 src="https://images.unsplash.com/photo-1618397746666-63405ce5d015?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="cover"
-                className="size-60 rounded"
+                className="size-36 rounded"
               />
             </div>
-            <div className="mb-2">
-              <h1 className="text-3xl font-bold tracking-tight text-white my-2">
+            <div className="mb-2.5">
+              <h1 className="text-xl font-bold tracking-tight text-white my-2">
                 Discover Weekly
               </h1>
-              <p className="text-zinc-400 text-sm">
+              <p className="text-zinc-400 text-xs">
                 Your weekly mixtape of fresh music, curated by Octave.
               </p>
             </div>
@@ -71,16 +71,16 @@ const MobileContent = () => {
               <img
                 src="https://picsum.photos/200/300"
                 alt="placeholder"
-                className="size-6 rounded-full"
+                className="size-5 rounded-full"
               />
-              <p className="font-bold tracking-tight">John Doe</p>
+              <p className="font-bold tracking-tight text-sm">John Doe</p>
             </div>
           </div>
 
           {/* Icons */}
           <div className="flex justify-between items-center flex-nowrap w-full">
             {/* Left Icons Group */}
-            <div className="flex space-x-4 items-center">
+            <div className="flex space-x-4 items-center text-zinc-400">
               <video
                 src="https://videos.pexels.com/video-files/7569779/7569779-sd_506_960_25fps.mp4"
                 className="h-10 w-8 object-cover rounded border-2 border-zinc-400"
@@ -95,7 +95,7 @@ const MobileContent = () => {
 
             {/* Right Icons Group */}
             <div className="flex items-center space-x-4">
-              <Shuffle className="size-5" />
+              <Shuffle className="size-5 text-zinc-400" />
               <div className="bg-blue-500 rounded-full w-10 h-10 flex items-center justify-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -122,11 +122,11 @@ const MobileContent = () => {
                     <img
                       src={track.image}
                       alt={track.name}
-                      className="size-10 rounded-md"
+                      className="size-10 rounded-md object-cover"
                     />
                     <div className="flex-1">
                       <p
-                        className={`font-semibold ${
+                        className={` ${
                           isPlaying && currentTrack?.id === track.id
                             ? "text-blue-500"
                             : ""
@@ -137,7 +137,7 @@ const MobileContent = () => {
                         {track.artist_name}
                       </p>
                     </div>
-                    <EllipsisVertical className="size-5" />
+                    <EllipsisVertical className="size-5 text-zinc-400" />
                   </li>
                 ))
               )}

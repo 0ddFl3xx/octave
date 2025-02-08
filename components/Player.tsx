@@ -164,10 +164,10 @@ export default function Player() {
             <img
               src={currentTrack.imageUrl}
               alt={currentTrack.name}
-              className="size-12 rounded-md"
+              className="size-12 rounded-md object-cover"
             />
             <div className="flex-1">
-              <p className="font-semibold">{currentTrack.name}</p>
+              <p className="font-semibold line-clamp-1">{currentTrack.name}</p>
               <p className="text-sm text-zinc-400">{currentTrack.artist}</p>
             </div>
             <div className="flex space-x-2">
@@ -179,7 +179,7 @@ export default function Player() {
                 }`}>
                 <Check className="size-4 text-white" />
               </div>
-              <div className="pl-2" onClick={() => setIsPlaying(!isPlaying)}>
+              <div  onClick={() => setIsPlaying(!isPlaying)}>
                 {isPlaying ? (
                   // pause icon
                   <svg
