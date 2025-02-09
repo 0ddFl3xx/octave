@@ -284,17 +284,17 @@ export default function Player() {
 
             return (
               <div
-                className="h-screen fixed inset-0 flex md:hidden flex-col p-2 z-50"
+                className="h-full fixed inset-0 md:hidden p-2 z-50"
                 style={{ background: gradientBackground }}>
-                {/* Top Section */}
-                <div className="relative flex items-center justify-center w-full mb-8">
+                {/* TOP SECTION */}
+                <div className="flex items-center justify-center mb-16">
                   <button
                     className="absolute left-4 text-white text-2xl"
                     onClick={() => setIsFullScreen(false)}>
                     <ChevronDown className="size-7" />
                   </button>
 
-                  <div className="flex flex-col items-center">
+                  <div className="flex flex-col items-center mt-2">
                     <p className="uppercase text-xs">playing from playlist</p>
                     <span className="font-semibold text-xs">
                       Discover Weekly
@@ -306,9 +306,9 @@ export default function Player() {
                   </button>
                 </div>
 
-                {/* Album Art and Track Info - Centers in remaining space */}
-                <div className="flex-1 flex flex-col justify-center items-center px-2">
-                  <div className="mb-6">
+                <div className="px-2">
+                  {/* CENTER MIDDLE SECTION */}
+                  <div className="mb-12 flex items-center justify-center">
                     <img
                       src={currentTrack.imageUrl}
                       alt={currentTrack.name}
@@ -316,8 +316,9 @@ export default function Player() {
                     />
                   </div>
 
-                  <div className="w-full mb-4">
-                    <div className="flex items-center justify-between">
+                  {/* Song Details + Like button */}
+                  <div className="mb-6">
+                    <div className="flex items-center justify-between ">
                       <div className="flex flex-col">
                         <h2 className="text-white font-bold line-clamp-1">
                           {currentTrack.name}
@@ -335,80 +336,77 @@ export default function Player() {
                       </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Bottom Controls Section */}
-                <div className="w-full px-2 pb-6">
-                  {/* Progress Bar */}
-                  <div className="w-full flex flex-col gap-1 mb-6">
-                    <input
-                      type="range"
-                      min="0"
-                      max={duration || 0}
-                      value={progress}
-                      onChange={handleProgressChange}
-                      className="w-full h-1 bg-zinc-600 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white"
-                    />
-                    <div className="pt-2 w-full flex items-center justify-between text-xs text-gray-400">
-                      <span>{formatTime(progress)}</span>
-                      <span>{formatTime(duration)}</span>
+                  {/* Music Controls */}
+                  <div className="flex flex-col items-center w-full">
+                    <div className="w-full flex flex-col gap-1">
+                      <input
+                        type="range"
+                        min="0"
+                        max={duration || 0}
+                        value={progress}
+                        onChange={handleProgressChange}
+                        className="w-full h-1 bg-zinc-600 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white"
+                      />
+                      <div className="pt-2 w-full flex items-center justify-between text-xs text-gray-400">
+                        <span>{formatTime(progress)}</span>
+                        <span>{formatTime(duration)}</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center space-x-6">
+                      <Shuffle className="size-5" />
+
+                      <button className="text-white">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          className="size-8 rotate-180"
+                          onClick={skipToPrevious}
+                          fill="#fff">
+                          <path d="M17 6 17 18H15L15 6 17 6ZM13 12 7 18V6L13 12Z"></path>
+                        </svg>
+                      </button>
+                      <button
+                        className="bg-white rounded-full p-2 hover:scale-105 transition"
+                        onClick={() => setIsPlaying(!isPlaying)}>
+                        {isPlaying ? (
+                          // pause icon
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            className="size-8"
+                            fill="#000">
+                            <path d="M6 3H8V21H6V3ZM16 3H18V21H16V3Z"></path>
+                          </svg>
+                        ) : (
+                          // play icon
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            className="size-8"
+                            fill="#000">
+                            <path d="M6 20.1957V3.80421C6 3.01878 6.86395 2.53993 7.53 2.95621L20.6432 11.152C21.2699 11.5436 21.2699 12.4563 20.6432 12.848L7.53 21.0437C6.86395 21.46 6 20.9812 6 20.1957Z"></path>
+                          </svg>
+                        )}
+                      </button>
+                      <button className="text-white">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          className="size-8"
+                          onClick={skipToNext}
+                          fill="#fff">
+                          <path d="M17 6 17 18H15L15 6 17 6ZM13 12 7 18V6L13 12Z"></path>
+                        </svg>
+                      </button>
+
+                      <Repeat className="size-5" />
                     </div>
                   </div>
-
-                  {/* Playback Controls */}
-                  <div className="flex items-center justify-center space-x-6 mb-4">
-                    <Shuffle className="size-5" />
-
-                    <button className="text-white">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        className="size-8 rotate-180"
-                        onClick={skipToPrevious}
-                        fill="#fff">
-                        <path d="M17 6 17 18H15L15 6 17 6ZM13 12 7 18V6L13 12Z" />
-                      </svg>
-                    </button>
-
-                    <button
-                      className="bg-white rounded-full p-2 hover:scale-105 transition"
-                      onClick={() => setIsPlaying(!isPlaying)}>
-                      {isPlaying ? (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          className="size-8"
-                          fill="#000">
-                          <path d="M6 3H8V21H6V3ZM16 3H18V21H16V3Z" />
-                        </svg>
-                      ) : (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          className="size-8"
-                          fill="#000">
-                          <path d="M6 20.1957V3.80421C6 3.01878 6.86395 2.53993 7.53 2.95621L20.6432 11.152C21.2699 11.5436 21.2699 12.4563 20.6432 12.848L7.53 21.0437C6.86395 21.46 6 20.9812 6 20.1957Z" />
-                        </svg>
-                      )}
-                    </button>
-
-                    <button className="text-white">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        className="size-8"
-                        onClick={skipToNext}
-                        fill="#fff">
-                        <path d="M17 6 17 18H15L15 6 17 6ZM13 12 7 18V6L13 12Z" />
-                      </svg>
-                    </button>
-
-                    <Repeat className="size-5" />
-                  </div>
-
-                  {/* Bottom Icons */}
-                  <div className="flex justify-between">
+                  <div className="mt-2 flex justify-between">
                     <MonitorSpeaker className="size-5" />
+
                     <div className="flex gap-6">
                       <Share2 className="size-5" />
                       <Menu className="size-5" />
