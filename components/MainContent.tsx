@@ -1,8 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { Play, Clock3 } from "lucide-react";
-import { toast } from "sonner";
+import { Clock3 } from "lucide-react";
 
 import { usePlayerStore } from "@/lib/usePlayerStore";
 import { JamendoTrack } from "@/lib/jamendo";
@@ -10,7 +9,8 @@ import { PCTrackListSkeleton } from "./TrackListSkeleton";
 import { useFeaturedTracks } from "@/hooks/useFeaturedTracks";
 
 const MainContent = () => {
-  const { setCurrentTrack, setIsPlaying, setQueue } = usePlayerStore();
+  const { currentTrack, setCurrentTrack, setIsPlaying, setQueue, isPlaying } =
+    usePlayerStore();
 
   const { data: featuredTracks = [], isLoading, error } = useFeaturedTracks();
 
@@ -48,7 +48,6 @@ const MainContent = () => {
     setQueue(remainingTracks);
 
     setIsPlaying(true);
-    toast.success(`Now playing "${track.name}"`);
   };
 
   return (
@@ -62,11 +61,11 @@ const MainContent = () => {
               className="size-60 shadow-white/20 shadow-2xl rounded"
             />
             <div className="ml-6">
-              <div className="text-sm font-bold text-gray-300">PLAYLIST</div>
-              <h1 className="text-5xl font-bold text-white mt-2 mb-4">
+              <div className="text-sm text-zinc-400">Public Playlist</div>
+              <h1 className="text-5xl font-bold tracking-tighter text-white mt-2 mb-4">
                 Discover Weekly
               </h1>
-              <p className="text-gray-300">
+              <p className="text-zinc-400 text-sm">
                 Your weekly mixtape of fresh music, curated by Octave.
               </p>
             </div>
@@ -74,13 +73,13 @@ const MainContent = () => {
 
           <div className="mt-8">
             <table className="w-full text-gray-300">
-              <thead>
-                <tr className="border-b border-gray-800 text-sm">
+              <thead className="border-b border-gray-700">
+                <tr className="text-sm text-zinc-400">
                   <th className="text-left pb-3 w-8">#</th>
-                  <th className="text-left pb-3">TITLE</th>
+                  <th className="text-left pb-3">Title</th>
                   <th className="text-left pb-3">Album</th>
-                  <th className="text-left pb-3">ARTIST</th>
-                  <th className="text-left pb-3 w-8">
+                  <th className="text-left pb-3">Dated Added</th>
+                  <th className="text-left pl-5 pb-3">
                     <Clock3 className="size-5" />
                   </th>
                 </tr>
@@ -93,29 +92,43 @@ const MainContent = () => {
                   featuredTracks.map((track, index) => (
                     <tr
                       key={track.id}
-                      className="border-b border-white/20 hover:bg-white/10 group cursor-pointer"
+                      className=" text-zinc-400 hover:bg-white/10 hover:rounded-xl group cursor-pointer py-1"
                       onClick={() => playTrack(track, index)}>
-                      <td className="py-4 w-8">
+                      <td className="w-8">
                         <span className="group-hover:hidden">{index + 1}</span>
-                        <Play className="size-4 hidden group-hover:block" />
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          className="size-4 hidden group-hover:block"
+                          fill="#fff">
+                          <path d="M6 20.1957V3.80421C6 3.01878 6.86395 2.53993 7.53 2.95621L20.6432 11.152C21.2699 11.5436 21.2699 12.4563 20.6432 12.848L7.53 21.0437C6.86395 21.46 6 20.9812 6 20.1957Z"></path>
+                        </svg>
                       </td>
-                      <td className="py-4">
+                      <td className="">
                         <div className="flex items-center">
                           <img
                             src={track.image}
                             alt={track.name}
-                            className="size-10  mr-4"
+                            className="size-10 rounded mr-4"
                           />
-                          {track.name}
+                          <div className="flex flex-col">
+                            <p
+                              className={` ${
+                                isPlaying && currentTrack?.id === track.id
+                                  ? "text-blue-500"
+                                  : "text-white font-semibold line-clamp-1"
+                              }`}>
+                              {track.name}
+                            </p>
+                            <p className="text-sm">{track.artist_name}</p>
+                          </div>
                         </div>
                       </td>
-                      <td className="py-4">{track.album_name}</td>
-                      <td className="py-4">{track.artist_name}</td>
-                      <td className="py-4 w-8">
-                        {/* 
-                        calculates the minutes by dividing the track's duration (in seconds) 
-                        gets the remaining seconds after dividing by 60, convert to string and pad to two digits
-                      */}
+                      <td className="p-4 text-sm line-clamp-1">
+                        {track.album_name}
+                      </td>
+                      <td className="py-4 text-sm">9 hours Ago</td>
+                      <td className="p-4">
                         {Math.floor(track.duration / 60)}:
                         {(track.duration % 60).toString().padStart(2, "0")}
                       </td>
