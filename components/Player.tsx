@@ -108,7 +108,7 @@ export default function Player() {
   return (
     <>
       {/* PC PLAYER */}
-      <div className="hidden lg:block fixed bottom-0 left-0 right-0 bg-gradient-to-t from-black to-gray-900 p-4">
+      <div className="hidden lg:block fixed bottom-0 left-0 right-0 bg-gradient-to-t from-black to-gray-900 px-6 py-2">
         <audio
           ref={audioRef}
           src={currentTrack.audioUrl}
@@ -133,7 +133,9 @@ export default function Player() {
             <div className="flex items-center space-x-6">
               <div className="flex items-center space-x-6">
                 <Shuffle
-                  className={`size-5 ${isShuffled ? "text-blue-500" : ""}`}
+                  className={`size-5 hover:cursor-pointer ${
+                    isShuffled ? "text-blue-500" : ""
+                  }`}
                   onClick={toggleShuffle}
                 />
 
@@ -182,7 +184,9 @@ export default function Player() {
                 </button>
 
                 <Repeat
-                  className={`size-5 ${isLooping ? "text-blue-500" : ""}`}
+                  className={`size-5 hover:cursor-pointer ${
+                    isLooping ? "text-blue-500" : ""
+                  }`}
                   onClick={toggleLoop}
                 />
               </div>
