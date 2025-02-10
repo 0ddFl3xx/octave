@@ -34,18 +34,39 @@ export default function Player() {
     setVolume,
     skipToNext,
     skipToPrevious,
+    toggleShuffle,
+    isShuffled,
+    isLooping,
+    toggleLoop,
   } = usePlayerStore();
 
   useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = volume;
+    const audioElement = audioRef.current;
+    
+    if (audioElement) {
+      audioElement.volume = volume;
       if (isPlaying) {
-        audioRef.current.play();
+        audioElement.play();
       } else {
-        audioRef.current.pause();
+        audioElement.pause();
       }
     }
-  }, [isPlaying, currentTrack, volume]);
+
+    const handleEnded = () => {
+      if (isLooping && currentTrack) {
+        if (audioElement) {
+          audioElement.currentTime = 0;
+          audioElement.play();
+        }
+      } else {
+        skipToNext();
+      }
+    };
+    audioElement?.addEventListener("ended", handleEnded);
+    return () => {
+      audioElement?.removeEventListener("ended", handleEnded);
+    };
+  }, [isPlaying, currentTrack, volume, isLooping, skipToNext]);
 
   const handleTimeUpdate = () => {
     if (audioRef.current) {
@@ -284,7 +305,7 @@ export default function Player() {
 
             return (
               <div
-                className="h-full fixed inset-0 md:hidden p-2 z-50"
+                className="min-h-screen fixed inset-0 md:hidden p-2 z-50"
                 style={{ background: gradientBackground }}>
                 {/* TOP SECTION */}
                 <div className="flex items-center justify-center mb-16">
@@ -355,7 +376,12 @@ export default function Player() {
                     </div>
 
                     <div className="flex items-center space-x-6">
-                      <Shuffle className="size-5" />
+                      <Shuffle
+                        className={`size-5 ${
+                          isShuffled ? "text-blue-500" : ""
+                        }`}
+                        onClick={toggleShuffle}
+                      />
 
                       <button className="text-white">
                         <svg
@@ -401,7 +427,10 @@ export default function Player() {
                         </svg>
                       </button>
 
-                      <Repeat className="size-5" />
+                      <Repeat
+                        className={`size-5 ${isLooping ? "text-blue-500" : ""}`}
+                        onClick={toggleLoop}
+                      />
                     </div>
                   </div>
                   <div className="mt-2 flex justify-between">
